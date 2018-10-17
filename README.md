@@ -10,9 +10,9 @@ Proceedings of the 51th International Symposium on Microarchitecture (**MICRO**)
 ## Major changes in the simulator.
 
 We made following major changes in gem5:
-* modify "DerivO3" classes to tracking when instructions reach visibility point, and issue load requests accordingly
+* modify "DerivO3" classes to track when instructions reach their visibility points, and issue load requests accordingly
 * modify "MESI_Two_Level" coherence protocol by adding 3 new transactions: SpecGetS, Expose, Validation
-* add a SpecBuffer at each L1, and per-core SpecBuffer LLC
+* add a SpecBuffer at each L1, and a per-core SpecBuffer LLC
 
 
 ## How to run the simulator?
