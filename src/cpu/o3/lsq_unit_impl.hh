@@ -1290,7 +1290,7 @@ LSQUnit<Impl>::exposeLoads()
                     delete snd_data_pkt;
                 }
             }
-            cpu->wakeCPU();
+            //cpu->wakeCPU();  // This will cause issue(wrong activity count and affects the memory transactions
             ++lsqCacheBlocked;
             break;
         } else {
