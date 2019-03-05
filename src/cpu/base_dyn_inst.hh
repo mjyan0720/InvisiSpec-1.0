@@ -334,11 +334,11 @@ class BaseDynInst : public ExecContext, public RefCounted
     bool needDeletePostReq() const { return instFlags[NeedDeletePostReq]; }
     void needDeletePostReq(bool f) { instFlags[NeedDeletePostReq] = f; }
 
-    bool fenceDelay() const { return instFlags[ReadyToExpose]; }
-    void fenceDelay(bool f) { instFlags[ReadyToExpose] = f; }
+    bool fenceDelay() const { return instFlags[FenceDelay]; }
+    void fenceDelay(bool f) { instFlags[FenceDelay] = f; }
 
-    bool readyToExpose() const { return instFlags[FenceDelay]; }
-    void readyToExpose(bool f) { instFlags[FenceDelay] = f; }
+    bool readyToExpose() const { return instFlags[ReadyToExpose]; }
+    void readyToExpose(bool f) { instFlags[ReadyToExpose] = f; }
 
     bool hitInvalidation() const { return instFlags[HitInvalidation]; }
     void hitInvalidation(bool f) { instFlags[HitInvalidation] = f; }
