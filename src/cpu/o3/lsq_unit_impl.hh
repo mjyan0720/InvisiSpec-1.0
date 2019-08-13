@@ -664,6 +664,13 @@ LSQUnit<Impl>::checkPrevLoadsExecuted(int req_idx)
             // then return false
             return false;
         }
+        if (needsTSO && loadQueue[load_idx]->needPostFetch() &&
+                !loadQueue[load_idx]->needExposeOnly() &&
+                !loadQueue[load_idx]->isExposeCompleted()){
+            // in TSO we cannot expose if a previous load
+            // that needs validation didn't validate yet
+            return false;
+        }
         incrLdIdx(load_idx);
     }
 
@@ -911,7 +918,7 @@ LSQUnit<Impl>::executeStore(DynInstPtr &store_inst)
     // address.  If so, then we have a memory ordering violation.
     int load_idx = store_inst->lqIdx;
 
-    // TODO: Check whether this store tries to get an exclusive copy 
+    // TODO: Check whether this store tries to get an exclusive copy
     // of target line [mengjia]
     Fault store_fault = store_inst->initiateAcc();
 
