@@ -820,6 +820,27 @@ machine(MachineType:L1Cache, "MESI Directory L1 Cache CMP")
     }
   }
 
+
+  action(dts_replayRequestToL2, "dtr", desc="replay spec request to L2") {
+    peek(requestL1Network_in, RequestMsg) {
+      enqueue(requestL1Network_out, RequestMsg, l1_request_latency) {
+      //enqueue(responseL1Network_out, ResponseMsg, l1_response_latency) {
+        out_msg.addr := address;
+        out_msg.Type := CoherenceRequestType:GETSPEC;
+        out_msg.Requestor := in_msg.Requestor;
+        out_msg.Destination.add(mapAddressToRange(address, MachineType:L2Cache,
+                          l2_select_low_bit, l2_select_num_bits, intToID(0)));
+        DPRINTF(RubySlicc, "address: %#x, destination: %s\n",
+                address, out_msg.Destination);
+        out_msg.MessageSize := MessageSizeType:SPECLD_Control;
+        out_msg.Prefetch := in_msg.Prefetch;
+        out_msg.AccessMode := in_msg.AccessMode;
+        out_msg.idx := in_msg.idx;
+      }
+    }
+  }
+
+
   action(d2t_sendDataToL2_fromTBE, "d2t", desc="send data to the L2 cache") {
     enqueue(responseL1Network_out, ResponseMsg, l1_response_latency) {
       assert(is_valid(tbe));
@@ -1428,6 +1449,12 @@ machine(MachineType:L1Cache, "MESI Directory L1 Cache CMP")
 
   transition(M_I, Fwd_GETSPEC) {
     dts_sendDataToSpecRequestor_fromTBE;
+    l_popRequestQueue;
+  }
+
+
+  transition(NP, Fwd_GETSPEC) {
+    dts_replayRequestToL2;
     l_popRequestQueue;
   }
 

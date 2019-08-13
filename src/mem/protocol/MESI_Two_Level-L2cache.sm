@@ -1101,7 +1101,8 @@ machine(MachineType:L2Cache, "MESI Directory L2 Cache CMP")
   }
 
   // [InvisiSpec] L1_GET_INSTR should not be received at II
-  transition(II, {L1_GETS, L1_EXPOSE}) {
+  //transition(II, {L1_GETS, L1_EXPOSE}) {
+  transition(II, {L1_GETS, L1_EXPOSE, L1_GET_INSTR}) {
     zz_stallAndWaitL1RequestQueue;
   }
 
