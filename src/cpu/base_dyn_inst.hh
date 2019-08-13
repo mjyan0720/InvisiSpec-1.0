@@ -804,6 +804,23 @@ class BaseDynInst : public ExecContext, public RefCounted
     void setExposeCompleted() { status.set(ExposeCompleted); }
     bool isExposeCompleted() const { return status[ExposeCompleted]; }
 
+    bool isLoadSafeToCommit() const {
+        if (isLoad() && !isSquashed() &&
+            getFault() == NoFault){
+            if (needPostFetch() &&
+                needExposeOnly() && !isExposeSent()){
+                return false;
+            }
+            if (needPostFetch() &&
+                !needExposeOnly() && !isExposeCompleted()){
+                return false;
+            }
+            return true;
+        } else {
+            return true;
+        }
+    }
+
     void setExposeSent() { status.set(ExposeSent); }
     bool isExposeSent() const { return status[ExposeSent]; }
 
