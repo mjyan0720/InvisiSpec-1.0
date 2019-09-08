@@ -239,7 +239,7 @@ Sequencer::insertRequest(PacketPtr pkt, RubyRequestType request_type)
             RequestTable::iterator i = r.first;
             i->second = new SequencerRequest(pkt, request_type, curCycle());
             m_outstanding_count++;
-        } else if (request_type == RubyRequestType_SPEC_LD) {
+        /*} else if (request_type == RubyRequestType_SPEC_LD) {
             auto i = m_readRequestTable.find(line_addr);
             if (i->second->m_type == RubyRequestType_SPEC_LD) {
                 DPRINTFR(SpecBuffer, "%10s Merging (idx=%d-%d, addr=%#x) with %d\n", curTick(), pkt->reqIdx, pkt->isFirst()? 0 : 1, printAddress(pkt->getAddr()), i->second->pkt->reqIdx);
@@ -249,6 +249,7 @@ Sequencer::insertRequest(PacketPtr pkt, RubyRequestType request_type)
                 m_load_waiting_on_load++;
                 return RequestStatus_Aliased;
             }
+        */
         } else {
             // There is an outstanding read request for the cache line
             m_load_waiting_on_load++;
