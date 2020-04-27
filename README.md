@@ -14,6 +14,9 @@ We made following major changes in gem5:
 * modify "MESI_Two_Level" coherence protocol by adding 3 new transactions: SpecGetS, Expose, Validation
 * add a SpecBuffer at each L1, and a per-core SpecBuffer LLC
 
+## How to build the simulator?
+
+    $ scons build/X86/gem5.opt --default=X86 PROTOCOL=MESI_Two_Level
 
 ## How to run the simulator?
 
